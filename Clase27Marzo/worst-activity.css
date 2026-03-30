@@ -45,3 +45,12 @@ p {
     padding: 8px;
     margin: 5px;
 }
+img {
+    border: 8px solid lime;
+    transform: rotate(5deg);
+    background-color: red;
+    padding: 5px;
+    display: block;
+    margin: 10px auto;
+    max-width: 70%;
+}
