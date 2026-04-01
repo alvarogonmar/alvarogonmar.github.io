@@ -54,3 +54,9 @@ img {
     margin: 10px auto;
     max-width: 70%;
 }
+table {
+    background-color: orange;
+    border: 6px solid purple;
+    margin: 10px auto;
+    width: 50%;
+}
