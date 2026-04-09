@@ -1,0 +1,23 @@
+body{
+    background-color: blanchedalmond;
+    color: brown;
+}
+
+div{
+        border: 10px white solid;
+}
+
+#contenedor{
+    border: 10px blue solid;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.imagen-chica {
+  width: 150px;
+  padding: 10px;
+  height: auto;
+}
