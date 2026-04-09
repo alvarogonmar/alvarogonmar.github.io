@@ -63,6 +63,12 @@ async function webJSON2() {
   const response = await fetch("http://openlibrary.org/subjects/love.json?published_in=1500-1600");
   const data = await response.json();
 
+  let p = document.createElement("p");
+  p.textContent = data.works[3].title;
+
+  document.getElementById("contenedor").appendChild(p);
+}
+
 </script>
 
 
