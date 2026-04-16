@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi página con Picnic CSS</title>
+  
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+
+  
+  <style>
+    .flex.demo{
+     margin: .2em 0;
+     background: #dbe2dc;
+     text-align: center;
+    }
+    .flex.demo div {
+      border:.1em solid pink;
+    }
+
+  </style>
+</head>
+<body>
+  
+
+  <button id="un_boton">Haz algo</button>
+  <div class="flex two four-1200 demo">
+    <div id="bio">1</div>
+    <div id="imagen">2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+    </div>
+  
+    <button id="like">👍 Like</button>
+    <button id="dislike">👎 Dislike</button>
+    <p>👍 Likes: <span id="likes">0</span></p>
+    <p>👎 Dislikes: <span id="dislikes">0</span></p>
+
+    <script>
+    let likes = 0;
+    let dislikes = 0;
+    let imagenActual = null;
+    let un_boton;
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("un_boton").addEventListener("click", irPorImagen);
+
+        document.getElementById("like").addEventListener("click", () => votar(1));
+        document.getElementById("dislike").addEventListener("click", () => votar(0));
+
+        console.log("DOM listo");
+    });
+
+
+     async function obtenerJSON() {
+       // const respuesta = await fetch('');  
+       // const datos = await respuesta.json();
+       // console.log(datos);
+
+        //const textoArtista = document.createElement('p');
+        //textoArtista.textContent = 
+        //biografia.appendChild(textoArtista);
+
+        //const imagenArtista= document.createElement('');
+        
+        //imagenArtista.setAttribute('src', '');
+     }
+
+    async function irPorAlgo() {
+    try {
+            const respuesta = await fetch("https://api.thedogapi.com/v1/breeds?limit=2",      {
+            method: "GET", 
+            headers: {
+                "x-api-key": ""
+            }
+    });
+
+        if (!respuesta.ok) {
+        console.log("Error");
+        //throw new Error("Error");
+        }
+            const data = await respuesta.json();
+            irPorImagen();
+
+        } catch (error) {
+            console.error("Error:", error.message);
+        }
+        }
+
+    </script>
+</body>
+</html>
