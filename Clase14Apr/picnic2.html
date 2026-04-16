@@ -84,6 +84,11 @@
         //throw new Error("Error");
         }
         const data = await respuesta.json();
+        console.log(data);
+        
+    } catch (error) {
+        console.error("Error:", error.message);
+    }
 
         if (!respuesta.ok) {
         console.log("Error");
