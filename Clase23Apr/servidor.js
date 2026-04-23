@@ -137,21 +137,23 @@ import fs from 'fs'; // El fs sirve para manejar archivos, como por ejemplo leer
     });
     }
 
-        function getPrestamos(req, res) {
-        const prestamos = [
+    function getPrestamos(req, res) {
+            const prestamos = [
             {
-            usuario: "Punk",
-            monto: 5000,
-            plazo: 12,
-            status: "aprobado"
+                usuario: "Punk",
+                monto: 5000,
+                plazo: 12,
+                semanas_pagadas: 4,
+                status: "aprobado"
             },
             {
-            usuario: "Alvaro", 
-            monto: 3000,
-            plazo: 8,
-            status: "pendiente"
+                usuario: "Alvaro",
+                monto: 3000,
+                plazo: 8,
+                semanas_pagadas: 8,
+                status: "pendiente"
             }
-        ];
+            ];
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(prestamos));
@@ -171,6 +173,44 @@ import fs from 'fs'; // El fs sirve para manejar archivos, como por ejemplo leer
     });
     }
 
+    function getEstadoPrestamo(req, res) {
+        const prestamos = [
+            {
+            loan_id: "loan_001",
+            usuario: "Punk",
+            monto: 5000,
+            plazo: 12,
+            semanas_pagadas: 4,
+            semanas_restantes: 8,
+            status: "activo"
+            },
+            {
+            loan_id: "loan_002",
+            usuario: "Alvaro",
+            monto: 3000,
+            plazo: 8,
+            semanas_pagadas: 8,
+            semanas_restantes: 0,
+            status: "pagado"
+            }
+        ];
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(prestamos));
+    }
+
+    function mostrarEstadoPrestamo(req, res) {
+        fs.readFile('estado-prestamo.html', 'utf8', (error, data) => {
+            if (error) {
+            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.end('Error al cargar el estado del préstamo');
+            return;
+            }
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(data);
+        });
+    }
+    
     //incluye el enlace a la documentación de createServer
     // https://nodejs.org/api/http.html#httpcreateserveroptions-requestlistener
     const servidor = http.createServer((req, res) => {
@@ -214,6 +254,12 @@ import fs from 'fs'; // El fs sirve para manejar archivos, como por ejemplo leer
       }
       else if (url === '/api/prestamo') {
         getPrestamos(req, res);
+      }
+      else if (url === '/api/estado-prestamo') {
+        getEstadoPrestamo(req, res);
+      }
+      else if (url === '/estado-prestamo') {
+        mostrarEstadoPrestamo(req, res);
       }
       else {
         manejarRuta404(req, res);
