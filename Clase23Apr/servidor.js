@@ -255,6 +255,50 @@ import fs from 'fs'; // El fs sirve para manejar archivos, como por ejemplo leer
         });
     }
 
+    // api/compras
+    function getCompras(req, res) {
+        const compras = [
+            { id: "compra_001", usuario: "Punk", comercio: "Amazon", monto: 1500, cuotas: 3, fecha: "2026-04-15" },
+            { id: "compra_002", usuario: "Alvaro", comercio: "Liverpool", monto: 5000, cuotas: 6, fecha: "2026-04-10" },
+            { id: "compra_003", usuario: "Punk", comercio: "Rappi", monto: 350, cuotas: 1, fecha: "2026-04-21" }
+        ];
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(compras));
+    }
+
+    function mostrarCompras(req, res) {
+        fs.readFile('compras.html', 'utf8', (error, data) => {
+            if (error) {
+            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.end('Error al cargar el estado del préstamo');
+            return;
+            }
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(data);
+        });
+    }
+
+    // api/score-credito
+    function getScoreCredito(req, res) {
+        const scores = [
+            { usuario: "Punk", score: 720, nivel: "bueno", ultima_actualizacion: "2026-04-01" },
+            { usuario: "Alvaro", score: 580, nivel: "regular", ultima_actualizacion: "2026-04-01" }
+        ];
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(scores));
+    }
+    function mostrarScoreCredito(req, res) {
+        fs.readFile('score-credito.html', 'utf8', (error, data) => {
+            if (error) {
+            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.end('Error al cargar el estado del préstamo');
+            return;
+            }
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(data);
+        });
+    }
+
 
     //incluye el enlace a la documentación de createServer
     // https://nodejs.org/api/http.html#httpcreateserveroptions-requestlistener
@@ -317,6 +361,18 @@ import fs from 'fs'; // El fs sirve para manejar archivos, como por ejemplo leer
       }
       else if (url === '/pagos') {
         mostrarPagos(req, res);
+      }
+      else if (url === '/api/compras') {
+        getCompras(req, res);
+      }
+      else if (url === '/compras') {
+        mostrarCompras(req, res);
+      }
+      else if (url === '/api/score-credito') {
+        getScoreCredito(req, res);
+      }
+      else if (url === '/score-credito') {
+        mostrarScoreCredito(req, res);
       }
       else {
         manejarRuta404(req, res);
