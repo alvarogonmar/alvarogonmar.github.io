@@ -210,7 +210,8 @@ import fs from 'fs'; // El fs sirve para manejar archivos, como por ejemplo leer
             res.end(data);
         });
     }
-
+    // Equipo
+    //  api/credito
     function getLimiteCredito(req, res) {
         const limites = [
             { usuario: "Punk", limite_total: 10000, limite_usado: 3000, limite_disponible: 7000 },
@@ -231,11 +232,12 @@ import fs from 'fs'; // El fs sirve para manejar archivos, como por ejemplo leer
         });
     }
 
+    // api/pagos
     function getPagos(req, res) {
         const pagos = [
             { id: "pago_001", usuario: "Punk", monto: 500, fecha: "2026-04-20", status: "completado" },
             { id: "pago_002", usuario: "Alvaro", monto: 1200, fecha: "2026-04-18", status: "completado" },
-            { id: "pago_003", usuario: "Valeria", monto: 800, fecha: "2026-04-30", status: "pendiente" }
+            { id: "pago_003", usuario: "Alvaro", monto: 800, fecha: "2026-04-30", status: "pendiente" }
         ];
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(pagos));
@@ -303,6 +305,18 @@ import fs from 'fs'; // El fs sirve para manejar archivos, como por ejemplo leer
       }
       else if (url === '/estado-prestamo') {
         mostrarEstadoPrestamo(req, res);
+      }
+      else if (url === '/api/limite-credito') {
+        getLimiteCredito(req, res);
+      }
+      else if (url === '/limite-credito') {
+        mostrarLimiteCredito(req, res);
+      }
+      else if (url === '/api/pagos') {
+        getPagos(req, res);
+      }
+      else if (url === '/pagos') {
+        mostrarPagos(req, res);
       }
       else {
         manejarRuta404(req, res);
