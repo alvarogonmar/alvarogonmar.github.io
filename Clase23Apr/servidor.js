@@ -211,6 +211,49 @@ import fs from 'fs'; // El fs sirve para manejar archivos, como por ejemplo leer
         });
     }
 
+    function getLimiteCredito(req, res) {
+        const limites = [
+            { usuario: "Punk", limite_total: 10000, limite_usado: 3000, limite_disponible: 7000 },
+            { usuario: "Alvaro", limite_total: 15000, limite_usado: 15000, limite_disponible: 0 }
+        ];
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(limites));
+    }
+    function mostrarLimiteCredito(req, res) {
+        fs.readFile('limite-credito.html', 'utf8', (error, data) => {
+            if (error) {
+            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.end('Error al cargar el estado del préstamo');
+            return;
+            }
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(data);
+        });
+    }
+
+    function getPagos(req, res) {
+        const pagos = [
+            { id: "pago_001", usuario: "Punk", monto: 500, fecha: "2026-04-20", status: "completado" },
+            { id: "pago_002", usuario: "Alvaro", monto: 1200, fecha: "2026-04-18", status: "completado" },
+            { id: "pago_003", usuario: "Valeria", monto: 800, fecha: "2026-04-30", status: "pendiente" }
+        ];
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(pagos));
+    }
+
+    function mostrarPagos(req, res) {
+        fs.readFile('pagos.html', 'utf8', (error, data) => {
+            if (error) {
+            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.end('Error al cargar el estado del préstamo');
+            return;
+            }
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(data);
+        });
+    }
+
+
     //incluye el enlace a la documentación de createServer
     // https://nodejs.org/api/http.html#httpcreateserveroptions-requestlistener
     const servidor = http.createServer((req, res) => {
