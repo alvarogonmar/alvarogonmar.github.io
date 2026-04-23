@@ -210,7 +210,7 @@ import fs from 'fs'; // El fs sirve para manejar archivos, como por ejemplo leer
             res.end(data);
         });
     }
-    
+
     //incluye el enlace a la documentación de createServer
     // https://nodejs.org/api/http.html#httpcreateserveroptions-requestlistener
     const servidor = http.createServer((req, res) => {
@@ -223,8 +223,8 @@ import fs from 'fs'; // El fs sirve para manejar archivos, como por ejemplo leer
       } else if (url === '/api/movimientos') {
         getMovimientos(req, res);
       } 
-      else if (url === '/usuarios') {
-        mostrarUsuarios(req, res);
+      else if (url === '/perfil') {
+        mostrarPerfil(req, res);
       } 
       else if (url === '/movimientos') {
         mostrarMovimientos(req, res);

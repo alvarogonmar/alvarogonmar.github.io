@@ -1,17 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Movimientos</title>
 </head>
 <body>
-  <h1>Movimientos de la cuenta</h1>
+  <h1>Lista de movimientos</h1>
+  <button onclick="verMovimientos()">Ver movimientos</button>
+  <ul id="listaMovimientos"></ul>
 
-  <ul>
-    <li>+ $100 Deposito</li>
-    <li>- $50 Compra</li>
-    <li>+ $200 Transferencia</li>
-  </ul>
+  <script>
+    async function verMovimientos() {
+      const res = await fetch('/api/movimientos');
+      const movimientos = await res.json();
 
+      const lista = document.getElementById('listaMovimientos');
+      lista.innerHTML = '';
+
+      movimientos.forEach(movimiento => {
+        const li = document.createElement('li');
+        li.textContent = `${movimiento.tipo} - $${movimiento.monto} - ${movimiento.fecha}`;
+        lista.appendChild(li);
+      });
+    }
+  </script>
 </body>
 </html>

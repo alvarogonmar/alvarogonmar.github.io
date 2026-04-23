@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Perfil</title>
+  <title>Usuarios</title>
 </head>
 <body>
-  <h1>Perfil</h1>
+  <h1>Lista de usuarios</h1>
+  <button onclick="verUsuarios()">Ver usuarios</button>
+  <ul id="listaUsuarios"></ul>
+
+  <script>
+    async function verUsuarios() {
+      const res = await fetch('/api/usuarios');
+      const usuarios = await res.json();
+
+      const lista = document.getElementById('listaUsuarios');
+      lista.innerHTML = '';
+
+      usuarios.forEach(usuario => {
+        const li = document.createElement('li');
+        li.textContent = `${usuario.nombre} - saldo: $${usuario.saldo}`;
+        lista.appendChild(li);
+      });
+    }
+  </script>
 </body>
 </html>
