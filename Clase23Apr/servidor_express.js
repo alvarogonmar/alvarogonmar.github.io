@@ -1,16 +1,54 @@
 import express from 'express'; // Me gusta Express porque hace mas facil crear servidores y manejar rutas
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mysql from 'mysql2'
+import { loadEnvFile } from 'process';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+loadEnvFile(path.join(__dirname, '..', '.env'));
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_PORT:', process.env.DB_PORT);
+console.log('DB_NAME:', process.env.DB_NAME);
+console.log('DB_USER:', process.env.DB_USER);
+
+
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: Number(process.env.DB_PORT)
+});
+
+connection.connect(error => {
+  if (error) throw error;
+  console.log('Conexión a la base de datos establecida');
+
+  });
 const app = express();
 const puerto = 1984;
 
 // Express hace que el codigo sea mucho mas corto y organizado
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 app.use(express.static(__dirname)); // Me pareció util express.static porque permite mostrar archivos facilmente
+
+app.get('/api/ofertas', (req, res) => {
+  connection.query('SELECT * FROM ofertas', (error, results) => {
+    if (error) {
+      console.error('Error al obtener ofertas:', error);
+      res.status(500).json({ error: 'Error al obtener ofertas' });
+      return;
+    }
+
+    res.json(results);
+  });
+});
+
+app.get('/ofertas', (req, res) => {
+  res.sendFile(path.join(__dirname, 'ofertas.html'));
+});
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'bienvenida.html'));
