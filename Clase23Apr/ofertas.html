@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ofertas</title>
+</head>
+<body>
+  <h1>Ofertas Kueski</h1>
+  <button onclick="verOfertas()">Ver ofertas</button>
+
+  <p id="mensaje"></p>
+
+  <table border="1" cellpadding="8" id="tablaOfertas">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripcion</th>
+        <th>Monto minimo</th>
+        <th>Monto maximo</th>
+        <th>Tasa de interes</th>
+        <th>Plazo meses</th>
+        <th>Activa</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function verOfertas() {
+      const mensaje = document.getElementById('mensaje');
+      const tbody = document.querySelector('#tablaOfertas tbody');
+
+      mensaje.textContent = 'Cargando ofertas...';
+      tbody.innerHTML = '';
+
+      try {
+        const res = await fetch('/api/ofertas');
+        const ofertas = await res.json();
+
+        if (!res.ok) {
+          mensaje.textContent = ofertas.error || 'Error al cargar ofertas';
+          return;
+        }
+
+        ofertas.forEach(oferta => {
+          const fila = document.createElement('tr');
+          fila.innerHTML = `
+            <td>${oferta.id}</td>
+            <td>${oferta.nombre}</td>
+            <td>${oferta.descripcion}</td>
+            <td>$${oferta.monto_minimo}</td>
+            <td>$${oferta.monto_maximo}</td>
+            <td>${oferta.tasa_interes}%</td>
+            <td>${oferta.plazo_meses}</td>
+            <td>${oferta.activa ? 'Si' : 'No'}</td>
+          `;
+          tbody.appendChild(fila);
+        });
+
+        mensaje.textContent = '';
+      } catch (error) {
+        mensaje.textContent = 'No se pudieron cargar las ofertas';
+      }
+    }
+  </script>
+</body>
+</html>
