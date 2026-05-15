@@ -1,13 +1,9 @@
 import express from 'express';
-import mysql from 'mysql2';
-//Pendiente nombre de la librería
+import mysql from 'mysql2/promise';//Pendiente nombre de la librería
 import NodeCache from 'node-cache';
 import { loadEnvFile } from 'process';
-
-
 import path from 'path';
 import { fileURLToPath } from 'url';
-
 
 //stdTTL
 const myCache = new NodeCache({ stdTTL: 20 }); // El tiempo que se guardan los datos en el cache, en segundos
@@ -19,7 +15,7 @@ const app = express();
 
 loadEnvFile(path.join(__dirname, '..', '..', '.env'));
 //Completa los datos correctos
-const connection = mysql.createConnection({
+const connection = await mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -28,9 +24,9 @@ const connection = mysql.createConnection({
 });
 
 
-let datosDB;
+// let datosDB;
 
-function getOfertas() {
+async function getOfertas() {
 
   //Pon un nombre a la llave
   const cacheKey = "ofertas";
@@ -49,28 +45,30 @@ function getOfertas() {
   }
 
   console.log("Consultando base de datos");
-
+  const [resultados] = await connection.query(consultaSQL);
+  myCache.set(cacheKey, resultados); // Guarda los resultados en el cache con la llave definida antes y el valor obtenido de la consulta
+  return resultados;
 
   //Esto lo vimos ayer
-  connection.connect(error => {
-    if (error) throw error;
-    console.log("Conectada");
-  });
+  // connection.connect(error => {
+  //   if (error) throw error;
+  //   console.log("Conectada");
+  // });
 
 
-  connection.query(consultaSQL, (error, resultados) => {
-    if (error) throw error;
+  // connection.query(consultaSQL, (error, resultados) => {
+  //   if (error) throw error;
 
-    console.log(resultados);
-    //Faltan datos
-    myCache.set(cacheKey, resultados); // Guarda los resultados en el cache con la llave definida antes y el valor obtenido de la consulta
-    datosDB = resultados;
-    //connection.end();
+  //   console.log(resultados);
+  //   //Faltan datos
+  //   myCache.set(cacheKey, resultados); // Guarda los resultados en el cache con la llave definida antes y el valor obtenido de la consulta
+  //   datosDB = resultados;
+  //   //connection.end();
 
-  });
+  // });
 
-  console.log(datosDB);
-  return datosDB;
+  // console.log(datosDB);
+  // return datosDB;
 }
 
 app.get('/storage', (req, res) => {
@@ -79,10 +77,10 @@ app.get('/storage', (req, res) => {
   res.sendFile(path.join(__dirname, 'localStorage_por.html'));
 });
 
-app.get('/obtenerDatos', (req, res) => {
+app.get('/obtenerDatos', async (req, res) => {
 
   //Falta llamar una función
-  const datos = getOfertas();
+  const datos = await getOfertas();
 
   res.json(datos);
 });
