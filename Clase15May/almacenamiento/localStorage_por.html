@@ -8,16 +8,17 @@
 <body>
 
     <!-- Completa los ids -->
-    <button id="">Cargar Datos desde el servidor o desde localStorage</button>
+    <button id="cargarDatos">Cargar Datos desde el servidor o desde localStorage</button>
+
     
     <h3>Datos:</h3>
-    <p id="">Un día los datos vendrán o no</p>
+    <p id="mensaje">Un día los datos vendrán o no</p>
 
     <script>
 
         //Completa los datos
-        const btn = document.getElementById('');
-        const mensaje = document.getElementById('');
+        const btn = document.getElementById('cargarDatos');
+        const mensaje = document.getElementById('mensaje');
 
         btn.addEventListener('click', async () => {
             
@@ -27,13 +28,13 @@
                     mensaje.innerText = "Consultando servidor...";
 
                     //Falta un dato
-                    const respuesta = await fetch('');
+                    const respuesta = await fetch('/obtenerDatos');
 
                     //Falta una palabra
-                    const datos = respuesta.json();
+                    const datos = await respuesta.json();
 
                     //El nombre del objeto está incorrecto
-                    loc.setItem('mis_donantes', JSON.stringify(datos));
+                    localStorage.setItem('ofertas', JSON.stringify(datos));
                     
                     mensaje.innerText = JSON.stringify(datos);
                 
@@ -44,11 +45,11 @@
                 
 
                 //Falta un dato
-                const datosLocales = localStorage.getItem('');
+                const datosLocales = localStorage.getItem('ofertas');
                 
 
                 //Falta información
-                if () {
+                if (datosLocales) {
                     const datos = JSON.parse(datosLocales);
                     mensaje.innerText = "Datos recuperados de LocalStorage (Sin internet):\n" + JSON.stringify(datos);
                 } else {
