@@ -1,0 +1,15 @@
+{
+  "name": "extension-prueba-aiven-api",
+  "version": "1.0.0",
+  "description": "API local para leer la tabla usuarios desde Aiven y mostrarla en la extension.",
+  "main": "server-aiven-ejemplo.js",
+  "scripts": {
+    "start": "node server-aiven-ejemplo.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mysql2": "^3.11.5"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Extension Prueba",
+  "version": "1.0.0",
+  "description": "Muestra datos de la tabla usuarios de Aiven en Amazon y Chedraui.",
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "http://localhost:3000/*"
+  ],
+  "action": {
+    "default_title": "Datos Aiven",
+    "default_popup": "popup.html"
+  }
+}
